@@ -1,8 +1,8 @@
 # Roadmap : Remora
 
 > **Remora** : s'accroche à n'importe quel ordinateur, où qu'il soit, pour l'aider à distance.
-> Période : du 24 novembre au 18 décembre 2026, soit environ 4 semaines
-> Auteur : étudiant en 2e année du PGE à Epitech, en stage
+> Développement : du 24 novembre au 18 décembre 2026, soit environ 4 semaines
+> Auteur : [TheoHVL](https://github.com/TheoHVL)
 
 ---
 
@@ -10,8 +10,8 @@
 
 Créer une application de prise en main à distance (dans l'esprit d'AnyDesk ou TeamViewer) **utilisable par Internet**, pour :
 
-- l'entreprise du stage : support informatique des employés **et de clients externes** ;
-- un usage personnel ensuite : vraie appli, projet de portfolio.
+- les équipes de support informatique : aider des employés **et des clients externes** ;
+- n'importe qui souhaitant auto-héberger sa propre solution de prise en main à distance.
 
 Contraintes :
 
@@ -26,7 +26,7 @@ Contraintes :
 
 | Domaine                    | Choix                                  | Pourquoi                                                 |
 | -------------------------- | -------------------------------------- | -------------------------------------------------------- |
-| Langage                    | **TypeScript** partout                 | Typage, autocomplétion, apprécié en entreprise           |
+| Langage                    | **TypeScript 6** partout               | Typage, autocomplétion, apprécié en entreprise           |
 | Organisation du code       | **Monorepo** (npm workspaces)          | Client, serveur et types partagés dans un seul repo      |
 | Appli de bureau            | **Electron** + electron-vite           | Multi-OS, WebRTC intégré, l'écosystème JS qu'on connaît  |
 | Vidéo + données temps réel | **WebRTC**                             | Vidéo compressée, chiffrement DTLS, passage du NAT (ICE) |
@@ -45,10 +45,10 @@ Contraintes :
 
 ### Hébergement gratuit (à vérifier : les offres changent souvent)
 
-- **GitHub Student Developer Pack**, gratuit avec l'adresse étudiante Epitech. Il donne en général des crédits cloud (DigitalOcean, Azure for Students…) et un nom de domaine offert pendant un an. C'est la piste n° 1.
+- **GitHub Student Developer Pack**, gratuit avec une adresse e-mail étudiante. Il donne en général des crédits cloud (DigitalOcean, Azure for Students…) et un nom de domaine offert pendant un an. C'est la piste n° 1.
 - **Oracle Cloud Always Free** : VM gratuite sans limite de durée, mais une carte bancaire est demandée pour vérification (aucun débit).
 - **Domaine** : celui du Student Pack, ou un sous-domaine gratuit type **DuckDNS**.
-- Pour l'entreprise : à terme, son propre serveur (à voir avec le maître de stage).
+- En production : n'importe quel serveur Linux avec Docker (auto-hébergement).
 
 > ⚠️ Un serveur TURN a besoin de ports **UDP**. Les hébergeurs « PaaS » gratuits (Render, etc.) ne conviennent donc pas : il faut une **vraie VM**.
 
@@ -193,7 +193,7 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 - 🟥 Installateurs Windows / macOS / Linux (electron-builder), construits par la CI sur les 3 OS
 - 🟥 Documentation : `README` (installation, usage), `docs/architecture.md`, `docs/protocole.md`, `docs/securite.md`
 - 🟥 Captures d'écran / GIF de démo
-- 🟥 Démo au maître de stage + passation (comment déployer, comment maintenir)
+- 🟥 Démo + guide de déploiement et de maintenance (`docs/deploiement.md`)
 - 🟧 Tag de version `v1.0.0` + _release_ GitHub avec les installateurs
 
 > Note : les installateurs **non signés** affichent un avertissement (SmartScreen sous Windows, Gatekeeper sous macOS). Les certificats de signature sont payants : on documente ce point plutôt que de l'acheter.
@@ -237,25 +237,26 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 
 ## 6. Risques identifiés
 
-| Risque                                                                                      | Impact                       | Parade                                                             |
-| ------------------------------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------ |
-| Planning serré (4 semaines, 6 phases)                                                       | Fonctions inachevées         | Priorités 🟥 d'abord, les 🟨 sautent en premier                    |
-| Wayland (Linux) bloque la capture et la simulation des entrées                              | Linux limité                 | Cibler X11, documenter la limite                                   |
-| Permissions macOS (Accessibilité, Enregistrement de l'écran)                                | Appli « muette » sur Mac     | Écran d'aide qui guide l'utilisateur                               |
-| Écrans UAC / appli lancée en admin (Windows)                                                | Impossible de cliquer dessus | Documenter. Un service Windows est hors périmètre.                 |
-| Offre d'hébergement gratuit indisponible                                                    | Pas de démo par Internet     | Prévoir deux pistes (Student Pack, Oracle) dès la phase 0          |
-| Appli exposée sur Internet = cible d'attaques                                               | Sécurité                     | Comptes obligatoires, limites de tentatives, consentement, journal |
-| Le serveur de signalisation pourrait remplacer les clés WebRTC (attaque de l'intermédiaire) | Confidentialité              | 🟨 Afficher un code de vérification identique sur les deux postes  |
+| Risque                                                                                      | Impact                          | Parade                                                             |
+| ------------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------------------------------------------ |
+| Planning serré (4 semaines, 6 phases)                                                       | Fonctions inachevées            | Priorités 🟥 d'abord, les 🟨 sautent en premier                    |
+| Wayland (Linux) bloque la capture et la simulation des entrées                              | Linux limité                    | Cibler X11, documenter la limite                                   |
+| Permissions macOS (Accessibilité, Enregistrement de l'écran)                                | Appli « muette » sur Mac        | Écran d'aide qui guide l'utilisateur                               |
+| Écrans UAC / appli lancée en admin (Windows)                                                | Impossible de cliquer dessus    | Documenter. Un service Windows est hors périmètre.                 |
+| TypeScript 7 pas encore supporté par typescript-eslint                                      | Outils de qualité inutilisables | Rester sur TypeScript 6 et migrer quand l'écosystème suivra        |
+| Offre d'hébergement gratuit indisponible                                                    | Pas de démo par Internet        | Prévoir deux pistes (Student Pack, Oracle) dès la phase 0          |
+| Appli exposée sur Internet = cible d'attaques                                               | Sécurité                        | Comptes obligatoires, limites de tentatives, consentement, journal |
+| Le serveur de signalisation pourrait remplacer les clés WebRTC (attaque de l'intermédiaire) | Confidentialité                 | 🟨 Afficher un code de vérification identique sur les deux postes  |
 
 ---
 
-## 7. Points à clarifier avec le maître de stage
+## 7. Décisions et questions ouvertes
 
-- [x] **Propriété du code** : le code écrit pendant un stage appartient souvent à l'entreprise (voir la convention de stage). Il faut un **accord écrit** pour le garder dans un repo personnel, le rendre public et le réutiliser hors de l'entreprise.
-- [x] **Licence** : MIT (accord du maître de stage obtenu)
-- [ ] Où l'entreprise hébergera son propre serveur après le stage.
 - [x] Nom de l'application : **Remora**
-- [ ] Contraintes légales vis-à-vis des clients (RGPD : le journal contient des données personnelles, et les clients doivent être informés).
+- [x] Licence : **MIT**, repo public
+- [x] TypeScript 6 plutôt que 7 (compatibilité avec typescript-eslint)
+- [ ] Hébergement de l'instance de démonstration (GitHub Student Pack ou Oracle Cloud)
+- [ ] RGPD : le journal des sessions contient des données personnelles. Il faut informer les utilisateurs et définir une durée de conservation.
 
 ---
 
@@ -264,7 +265,7 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 | Phase                      | Statut                     |
 | -------------------------- | -------------------------- |
 | Prototype JS (exploration) | ✅ fait, sert de référence |
-| 0 · Fondations             | ⏳                         |
+| 0 · Fondations             | 🔄 en cours                |
 | 1 · Cœur                   | ⏳                         |
 | 2 · Internet               | ⏳                         |
 | 3 · Comptes                | ⏳                         |
