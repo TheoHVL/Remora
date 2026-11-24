@@ -4,6 +4,19 @@
   "private": true,
   "description": "Cross-platform remote desktop app built with TypeScript, Electron and WebRTC",
   "license": "MIT",
-  "workspaces": ["apps/*", "packages/*"],
-  "engines": { "node": ">=22" }
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "tsc -b --clean"
+  }
 }
