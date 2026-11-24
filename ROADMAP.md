@@ -9,10 +9,12 @@
 ## 1. Objectif
 
 Créer une application de prise en main à distance (dans l'esprit d'AnyDesk ou TeamViewer) **utilisable par Internet**, pour :
+
 - l'entreprise du stage : support informatique des employés **et de clients externes** ;
 - un usage personnel ensuite : vraie appli, projet de portfolio.
 
 Contraintes :
+
 - **budget nul** : hébergement, domaine et certificats gratuits ;
 - trois OS : **Windows, macOS, Linux** ;
 - code **propre, testé, documenté**, avec un historique Git lisible ;
@@ -22,26 +24,27 @@ Contraintes :
 
 ## 2. Choix techniques
 
-| Domaine | Choix | Pourquoi |
-|---|---|---|
-| Langage | **TypeScript** partout | Typage, autocomplétion, apprécié en entreprise |
-| Organisation du code | **Monorepo** (npm workspaces) | Client, serveur et types partagés dans un seul repo |
-| Appli de bureau | **Electron** + electron-vite | Multi-OS, WebRTC intégré, l'écosystème JS qu'on connaît |
-| Vidéo + données temps réel | **WebRTC** | Vidéo compressée, chiffrement DTLS, passage du NAT (ICE) |
-| Souris / clavier | **nut.js** (`@nut-tree-fork/nut-js`) | Simulation des entrées sur les 3 OS |
-| Serveur | **Node.js + Fastify + ws** | API REST (comptes) + WebSocket (signalisation) |
-| Base de données | **SQLite** (better-sqlite3) | Un simple fichier, gratuit, suffisant pour ce projet |
-| Validation des messages | **zod** | On ne fait jamais confiance à ce qui arrive du réseau |
-| Mots de passe | **argon2id** | Algorithme de hachage recommandé (OWASP) |
-| Authentification | **JWT** courts + refresh token | Standard, sans état côté serveur |
-| Relais réseau | **coturn** (STUN + TURN) | Indispensable par Internet |
-| HTTPS / WSS | **Caddy** + Let's Encrypt | Certificats gratuits et automatiques |
-| Déploiement serveur | **Docker Compose** | Serveur, coturn et Caddy lancés en une commande |
-| Tests | **Vitest** | Rapide, natif TypeScript |
-| Qualité | ESLint + Prettier + **GitHub Actions** | CI à chaque push / PR |
-| Installateurs | **electron-builder** | `.exe`, `.dmg`, `.AppImage` / `.deb` |
+| Domaine                    | Choix                                  | Pourquoi                                                 |
+| -------------------------- | -------------------------------------- | -------------------------------------------------------- |
+| Langage                    | **TypeScript** partout                 | Typage, autocomplétion, apprécié en entreprise           |
+| Organisation du code       | **Monorepo** (npm workspaces)          | Client, serveur et types partagés dans un seul repo      |
+| Appli de bureau            | **Electron** + electron-vite           | Multi-OS, WebRTC intégré, l'écosystème JS qu'on connaît  |
+| Vidéo + données temps réel | **WebRTC**                             | Vidéo compressée, chiffrement DTLS, passage du NAT (ICE) |
+| Souris / clavier           | **nut.js** (`@nut-tree-fork/nut-js`)   | Simulation des entrées sur les 3 OS                      |
+| Serveur                    | **Node.js + Fastify + ws**             | API REST (comptes) + WebSocket (signalisation)           |
+| Base de données            | **SQLite** (better-sqlite3)            | Un simple fichier, gratuit, suffisant pour ce projet     |
+| Validation des messages    | **zod**                                | On ne fait jamais confiance à ce qui arrive du réseau    |
+| Mots de passe              | **argon2id**                           | Algorithme de hachage recommandé (OWASP)                 |
+| Authentification           | **JWT** courts + refresh token         | Standard, sans état côté serveur                         |
+| Relais réseau              | **coturn** (STUN + TURN)               | Indispensable par Internet                               |
+| HTTPS / WSS                | **Caddy** + Let's Encrypt              | Certificats gratuits et automatiques                     |
+| Déploiement serveur        | **Docker Compose**                     | Serveur, coturn et Caddy lancés en une commande          |
+| Tests                      | **Vitest**                             | Rapide, natif TypeScript                                 |
+| Qualité                    | ESLint + Prettier + **GitHub Actions** | CI à chaque push / PR                                    |
+| Installateurs              | **electron-builder**                   | `.exe`, `.dmg`, `.AppImage` / `.deb`                     |
 
 ### Hébergement gratuit (à vérifier : les offres changent souvent)
+
 - **GitHub Student Developer Pack**, gratuit avec l'adresse étudiante Epitech. Il donne en général des crédits cloud (DigitalOcean, Azure for Students…) et un nom de domaine offert pendant un an. C'est la piste n° 1.
 - **Oracle Cloud Always Free** : VM gratuite sans limite de durée, mais une carte bancaire est demandée pour vérification (aucun débit).
 - **Domaine** : celui du Student Pack, ou un sous-domaine gratuit type **DuckDNS**.
@@ -81,6 +84,7 @@ remora/
 ```
 
 ### Rôles
+
 - **Client** (la personne aidée) : télécharge l'appli, communique son ID et son mot de passe, accepte la demande. Pas de compte nécessaire.
 - **Technicien** : doit être **connecté à un compte** pour lancer une prise en main. C'est la sécurité principale pour une appli exposée sur Internet.
 - **Admin** : crée les comptes techniciens et consulte le journal des sessions.
@@ -92,6 +96,7 @@ remora/
 Légende des priorités : 🟥 **indispensable** · 🟧 **important** · 🟨 **bonus si le temps le permet**
 
 ### Phase 0 : Fondations (24 → 27 nov.)
+
 Objectif : un repo propre, prêt à accueillir le code.
 
 - 🟥 Créer le repo, `README`, `.gitignore`, licence MIT
@@ -99,7 +104,7 @@ Objectif : un repo propre, prêt à accueillir le code.
 - 🟥 TypeScript (`tsconfig` de base partagé), ESLint, Prettier
 - 🟥 Vitest + un premier test
 - 🟥 CI GitHub Actions : lint + typecheck + tests à chaque push et PR
-- 🟧 GitHub Projects : un ticket (issue) par tâche de cette roadmap, un *milestone* par phase
+- 🟧 GitHub Projects : un ticket (issue) par tâche de cette roadmap, un _milestone_ par phase
 - 🟧 Ouvrir son compte GitHub Student Pack et réserver la VM
 
 **À comprendre :** les workspaces npm, à quoi sert un `tsconfig`, ce que fait une CI, une convention de commits.
@@ -107,6 +112,7 @@ Objectif : un repo propre, prêt à accueillir le code.
 ---
 
 ### Phase 1 : Cœur de la prise en main (30 nov. → 4 déc.)
+
 Objectif : refaire le prototype proprement, en TypeScript, étape par étape.
 
 - 🟥 `shared` : définir le **protocole** (types + schémas zod pour chaque message)
@@ -124,6 +130,7 @@ Objectif : refaire le prototype proprement, en TypeScript, étape par étape.
 ---
 
 ### Phase 2 : Passage sur Internet (7 → 9 déc.)
+
 Objectif : faire fonctionner l'appli entre deux réseaux différents (ex : Wi-Fi + partage 4G).
 
 - 🟥 VM : sécurisation de base (SSH par clé, pare-feu `ufw`, mises à jour automatiques)
@@ -140,6 +147,7 @@ Objectif : faire fonctionner l'appli entre deux réseaux différents (ex : Wi-Fi
 ---
 
 ### Phase 3 : Comptes et identité des postes (9 → 11 déc.)
+
 Objectif : passer d'un jouet à un outil qu'on peut exposer sur Internet.
 
 - 🟥 Base SQLite : tables `users`, `devices`, `sessions_log`
@@ -155,17 +163,19 @@ Objectif : passer d'un jouet à un outil qu'on peut exposer sur Internet.
 ---
 
 ### Phase 4 : Fonctionnalités de confort (14 → 16 déc.)
+
 - 🟧 **Multi-écrans** : liste des écrans, changement à chaud (`replaceTrack`), bonnes coordonnées souris
 - 🟧 **Presse-papiers partagé** (texte), activable ou désactivable pendant la session
 - 🟧 **Transfert de fichiers** : découpage en morceaux, contrôle du débit (`bufferedAmount`), barre de progression, **confirmation côté receveur**, taille maximale
 - 🟧 **Chat** texte pendant la session
 - 🟨 Ctrl+Alt+Suppr / raccourcis spéciaux, réglage de qualité vidéo
 
-**À comprendre :** *backpressure*, découpage de fichiers, encodage binaire vs JSON, coordonnées multi-écrans et facteur d'échelle (écrans HiDPI).
+**À comprendre :** _backpressure_, découpage de fichiers, encodage binaire vs JSON, coordonnées multi-écrans et facteur d'échelle (écrans HiDPI).
 
 ---
 
 ### Phase 5 : Accès sans surveillance (16 → 17 déc.) ⚠️ sensible
+
 Objectif : se connecter à un poste sans que personne ne clique sur « Accepter » (serveurs, PC le soir).
 
 - 🟧 Option **désactivée par défaut**, activable seulement sur le poste lui-même
@@ -179,11 +189,12 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 ---
 
 ### Phase 6 : Finitions, livraison, présentation (17 → 18 déc.)
+
 - 🟥 Installateurs Windows / macOS / Linux (electron-builder), construits par la CI sur les 3 OS
 - 🟥 Documentation : `README` (installation, usage), `docs/architecture.md`, `docs/protocole.md`, `docs/securite.md`
 - 🟥 Captures d'écran / GIF de démo
 - 🟥 Démo au maître de stage + passation (comment déployer, comment maintenir)
-- 🟧 Tag de version `v1.0.0` + *release* GitHub avec les installateurs
+- 🟧 Tag de version `v1.0.0` + _release_ GitHub avec les installateurs
 
 > Note : les installateurs **non signés** affichent un avertissement (SmartScreen sous Windows, Gatekeeper sous macOS). Les certificats de signature sont payants : on documente ce point plutôt que de l'acheter.
 
@@ -192,6 +203,7 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 ## 5. Méthode de travail
 
 ### Pour chaque tâche
+
 1. **Explication** : on voit le concept et pourquoi on en a besoin.
 2. **Écriture** : tu écris le plus possible. Je t'aide, je relis, je corrige.
 3. **Vérification** : tests + démo manuelle.
@@ -199,6 +211,7 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 5. **Commit / PR**.
 
 ### Git
+
 - Branche `main` toujours fonctionnelle. Une branche par tâche : `feat/signaling-server`, `fix/key-release`…
 - Une **Pull Request** par tâche, avec la CI verte avant de fusionner.
 - Convention de commits : `[TYPE] : explication`
@@ -214,6 +227,7 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 - Petits commits fréquents, chacun avec **une seule intention**.
 
 ### Définition de « terminé » pour une tâche
+
 - [ ] Le code compile, le lint et les tests passent (CI verte)
 - [ ] La fonctionnalité a été testée à la main
 - [ ] La doc est à jour si besoin
@@ -223,15 +237,15 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 
 ## 6. Risques identifiés
 
-| Risque | Impact | Parade |
-|---|---|---|
-| Planning serré (4 semaines, 6 phases) | Fonctions inachevées | Priorités 🟥 d'abord, les 🟨 sautent en premier |
-| Wayland (Linux) bloque la capture et la simulation des entrées | Linux limité | Cibler X11, documenter la limite |
-| Permissions macOS (Accessibilité, Enregistrement de l'écran) | Appli « muette » sur Mac | Écran d'aide qui guide l'utilisateur |
-| Écrans UAC / appli lancée en admin (Windows) | Impossible de cliquer dessus | Documenter. Un service Windows est hors périmètre. |
-| Offre d'hébergement gratuit indisponible | Pas de démo par Internet | Prévoir deux pistes (Student Pack, Oracle) dès la phase 0 |
-| Appli exposée sur Internet = cible d'attaques | Sécurité | Comptes obligatoires, limites de tentatives, consentement, journal |
-| Le serveur de signalisation pourrait remplacer les clés WebRTC (attaque de l'intermédiaire) | Confidentialité | 🟨 Afficher un code de vérification identique sur les deux postes |
+| Risque                                                                                      | Impact                       | Parade                                                             |
+| ------------------------------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------ |
+| Planning serré (4 semaines, 6 phases)                                                       | Fonctions inachevées         | Priorités 🟥 d'abord, les 🟨 sautent en premier                    |
+| Wayland (Linux) bloque la capture et la simulation des entrées                              | Linux limité                 | Cibler X11, documenter la limite                                   |
+| Permissions macOS (Accessibilité, Enregistrement de l'écran)                                | Appli « muette » sur Mac     | Écran d'aide qui guide l'utilisateur                               |
+| Écrans UAC / appli lancée en admin (Windows)                                                | Impossible de cliquer dessus | Documenter. Un service Windows est hors périmètre.                 |
+| Offre d'hébergement gratuit indisponible                                                    | Pas de démo par Internet     | Prévoir deux pistes (Student Pack, Oracle) dès la phase 0          |
+| Appli exposée sur Internet = cible d'attaques                                               | Sécurité                     | Comptes obligatoires, limites de tentatives, consentement, journal |
+| Le serveur de signalisation pourrait remplacer les clés WebRTC (attaque de l'intermédiaire) | Confidentialité              | 🟨 Afficher un code de vérification identique sur les deux postes  |
 
 ---
 
@@ -247,13 +261,13 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 
 ## 8. Suivi
 
-| Phase | Statut |
-|---|---|
+| Phase                      | Statut                     |
+| -------------------------- | -------------------------- |
 | Prototype JS (exploration) | ✅ fait, sert de référence |
-| 0 · Fondations | ⏳ |
-| 1 · Cœur | ⏳ |
-| 2 · Internet | ⏳ |
-| 3 · Comptes | ⏳ |
-| 4 · Confort | ⏳ |
-| 5 · Sans surveillance | ⏳ |
-| 6 · Livraison | ⏳ |
+| 0 · Fondations             | ⏳                         |
+| 1 · Cœur                   | ⏳                         |
+| 2 · Internet               | ⏳                         |
+| 3 · Comptes                | ⏳                         |
+| 4 · Confort                | ⏳                         |
+| 5 · Sans surveillance      | ⏳                         |
+| 6 · Livraison              | ⏳                         |

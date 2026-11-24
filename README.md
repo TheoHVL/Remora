@@ -17,12 +17,12 @@ Remora est une application de **prise en main à distance** multiplateforme (Win
 
 ## Stack technique
 
-| Partie | Technologies |
-|---|---|
-| Application de bureau | Electron, TypeScript, WebRTC, nut.js |
-| Serveur | Node.js, TypeScript, Fastify, WebSocket, SQLite |
-| Infrastructure | Docker Compose, Caddy (HTTPS), coturn (STUN/TURN) |
-| Qualité | Vitest, ESLint, Prettier, GitHub Actions |
+| Partie                | Technologies                                      |
+| --------------------- | ------------------------------------------------- |
+| Application de bureau | Electron, TypeScript, WebRTC, nut.js              |
+| Serveur               | Node.js, TypeScript, Fastify, WebSocket, SQLite   |
+| Infrastructure        | Docker Compose, Caddy (HTTPS), coturn (STUN/TURN) |
+| Qualité               | Vitest, ESLint, Prettier, GitHub Actions          |
 
 ## Licence
 
