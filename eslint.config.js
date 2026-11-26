@@ -13,7 +13,10 @@ export default defineConfig(
     languageOptions: {
       globals: globals.node,
       parserOptions: {
-        projectService: true,
+        projectService: {
+          // Fichiers de config à la racine, hors des tsconfig des paquets
+          allowDefaultProject: ['*.config.ts'],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
     },
