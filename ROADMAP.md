@@ -6,51 +6,48 @@
 
 ---
 
-## 1. Objectif
+## 1. Présentation
 
-Créer une application de prise en main à distance (dans l'esprit d'AnyDesk ou TeamViewer) **utilisable par Internet**, pour :
+Remora est une application de prise en main à distance (dans l'esprit d'AnyDesk ou TeamViewer) **utilisable par Internet**. Elle s'adresse :
 
-- les équipes de support informatique : aider des employés **et des clients externes** ;
-- n'importe qui souhaitant auto-héberger sa propre solution de prise en main à distance.
+- aux équipes de support informatique, pour aider des employés **et des clients externes** ;
+- à toute organisation qui souhaite **héberger elle-même** sa solution de prise en main à distance.
 
-Contraintes :
+### Principes
 
-- **budget nul** : hébergement, domaine et certificats gratuits ;
-- trois OS : **Windows, macOS, Linux** ;
-- code **propre, testé, documenté**, avec un historique Git lisible ;
-- **comprendre** chaque brique, pas seulement la faire fonctionner.
+- **Multiplateforme** : Windows, macOS et Linux.
+- **Sécurité par défaut** : accord explicite de la personne aidée, flux chiffré de bout en bout, comptes obligatoires pour les techniciens.
+- **Auto-hébergeable** : un seul serveur Linux avec Docker suffit à faire fonctionner l'ensemble.
+- **Open source** : code sous licence MIT.
 
 ---
 
 ## 2. Choix techniques
 
-| Domaine                    | Choix                                  | Pourquoi                                                 |
-| -------------------------- | -------------------------------------- | -------------------------------------------------------- |
-| Langage                    | **TypeScript 6** partout               | Typage, autocomplétion, apprécié en entreprise           |
-| Organisation du code       | **Monorepo** (npm workspaces)          | Client, serveur et types partagés dans un seul repo      |
-| Appli de bureau            | **Electron** + electron-vite           | Multi-OS, WebRTC intégré, l'écosystème JS qu'on connaît  |
-| Vidéo + données temps réel | **WebRTC**                             | Vidéo compressée, chiffrement DTLS, passage du NAT (ICE) |
-| Souris / clavier           | **nut.js** (`@nut-tree-fork/nut-js`)   | Simulation des entrées sur les 3 OS                      |
-| Serveur                    | **Node.js + Fastify + ws**             | API REST (comptes) + WebSocket (signalisation)           |
-| Base de données            | **SQLite** (better-sqlite3)            | Un simple fichier, gratuit, suffisant pour ce projet     |
-| Validation des messages    | **zod**                                | On ne fait jamais confiance à ce qui arrive du réseau    |
-| Mots de passe              | **argon2id**                           | Algorithme de hachage recommandé (OWASP)                 |
-| Authentification           | **JWT** courts + refresh token         | Standard, sans état côté serveur                         |
-| Relais réseau              | **coturn** (STUN + TURN)               | Indispensable par Internet                               |
-| HTTPS / WSS                | **Caddy** + Let's Encrypt              | Certificats gratuits et automatiques                     |
-| Déploiement serveur        | **Docker Compose**                     | Serveur, coturn et Caddy lancés en une commande          |
-| Tests                      | **Vitest**                             | Rapide, natif TypeScript                                 |
-| Qualité                    | ESLint + Prettier + **GitHub Actions** | CI à chaque push / PR                                    |
-| Installateurs              | **electron-builder**                   | `.exe`, `.dmg`, `.AppImage` / `.deb`                     |
+| Domaine                    | Choix                                  | Pourquoi                                                  |
+| -------------------------- | -------------------------------------- | --------------------------------------------------------- |
+| Langage                    | **TypeScript 6** partout               | Typage statique : erreurs détectées à la compilation      |
+| Organisation du code       | **Monorepo** (npm workspaces)          | Client, serveur et types partagés dans un seul repo       |
+| Appli de bureau            | **Electron** + electron-vite           | Multi-OS, WebRTC intégré, même langage que le serveur     |
+| Vidéo + données temps réel | **WebRTC**                             | Vidéo compressée, chiffrement DTLS, passage du NAT (ICE)  |
+| Souris / clavier           | **nut.js** (`@nut-tree-fork/nut-js`)   | Simulation des entrées sur les 3 OS                       |
+| Serveur                    | **Node.js + Fastify + ws**             | API REST (comptes) + WebSocket (signalisation)            |
+| Base de données            | **SQLite** (better-sqlite3)            | Aucun serveur à installer, adapté aux petits déploiements |
+| Validation des messages    | **zod**                                | Vérification à l'exécution de tout message reçu           |
+| Mots de passe              | **argon2id**                           | Algorithme de hachage recommandé (OWASP)                  |
+| Authentification           | **JWT** courts + refresh token         | Standard, sans état côté serveur                          |
+| Relais réseau              | **coturn** (STUN + TURN)               | Traversée des NAT et relais quand le direct est bloqué    |
+| HTTPS / WSS                | **Caddy** + Let's Encrypt              | Certificats gratuits et automatiques                      |
+| Déploiement serveur        | **Docker Compose**                     | Serveur, coturn et Caddy lancés en une commande           |
+| Tests                      | **Vitest**                             | Rapide, natif TypeScript                                  |
+| Qualité                    | ESLint + Prettier + **GitHub Actions** | CI à chaque push / PR                                     |
+| Installateurs              | **electron-builder**                   | `.exe`, `.dmg`, `.AppImage` / `.deb`                      |
 
-### Hébergement gratuit (à vérifier : les offres changent souvent)
+### Hébergement
 
-- **GitHub Student Developer Pack**, gratuit avec une adresse e-mail étudiante. Il donne en général des crédits cloud (DigitalOcean, Azure for Students…) et un nom de domaine offert pendant un an. C'est la piste n° 1.
-- **Oracle Cloud Always Free** : VM gratuite sans limite de durée, mais une carte bancaire est demandée pour vérification (aucun débit).
-- **Domaine** : celui du Student Pack, ou un sous-domaine gratuit type **DuckDNS**.
-- En production : n'importe quel serveur Linux avec Docker (auto-hébergement).
-
-> ⚠️ Un serveur TURN a besoin de ports **UDP**. Les hébergeurs « PaaS » gratuits (Render, etc.) ne conviennent donc pas : il faut une **vraie VM**.
+- Le serveur s'installe sur **n'importe quelle VM Linux** avec Docker.
+- Une vraie VM est nécessaire : coturn a besoin de ports **UDP**, que les hébergeurs « PaaS » (Render, etc.) ne fournissent pas.
+- Instance de démonstration : offre cloud gratuite (Oracle Cloud Always Free ou crédits du GitHub Student Developer Pack) et nom de domaine gratuit (DuckDNS ou équivalent).
 
 ---
 
@@ -97,7 +94,7 @@ Légende des priorités : 🟥 **indispensable** · 🟧 **important** · 🟨 *
 
 ### Phase 0 : Fondations (24 → 27 nov.)
 
-Objectif : un repo propre, prêt à accueillir le code.
+Objectif : un dépôt outillé (typage, lint, tests, CI) prêt à accueillir le code.
 
 - 🟥 Créer le repo, `README`, `.gitignore`, licence MIT
 - 🟥 Monorepo npm workspaces : `apps/desktop`, `apps/server`, `packages/shared`
@@ -105,15 +102,13 @@ Objectif : un repo propre, prêt à accueillir le code.
 - 🟥 Vitest + un premier test
 - 🟥 CI GitHub Actions : lint + typecheck + tests à chaque push et PR
 - 🟧 GitHub Projects : un ticket (issue) par tâche de cette roadmap, un _milestone_ par phase
-- 🟧 Ouvrir son compte GitHub Student Pack et réserver la VM
-
-**À comprendre :** les workspaces npm, à quoi sert un `tsconfig`, ce que fait une CI, une convention de commits.
+- 🟧 Serveur de démonstration : réservation de la VM et du domaine
 
 ---
 
 ### Phase 1 : Cœur de la prise en main (30 nov. → 4 déc.)
 
-Objectif : refaire le prototype proprement, en TypeScript, étape par étape.
+Objectif : première version fonctionnelle de la prise en main, sur réseau local.
 
 - 🟥 `shared` : définir le **protocole** (types + schémas zod pour chaque message)
 - 🟥 Serveur de signalisation : ID, mise en relation, relais SDP/ICE, limite de tentatives + tests
@@ -125,7 +120,6 @@ Objectif : refaire le prototype proprement, en TypeScript, étape par étape.
 - 🟧 Écran d'accueil propre (UI)
 
 **Livrable :** une démo en local, deux fenêtres sur un même PC ou deux PC du même réseau.
-**À comprendre :** WebSocket vs HTTP, SDP / offer / answer, candidats ICE, `RTCDataChannel`, IPC Electron, pourquoi le preload existe.
 
 ---
 
@@ -142,13 +136,12 @@ Objectif : faire fonctionner l'appli entre deux réseaux différents (ex : Wi-Fi
 - 🟨 Déploiement automatique du serveur depuis GitHub Actions
 
 **Livrable :** prise en main fonctionnelle entre deux réseaux différents.
-**À comprendre :** NAT, STUN vs TURN, pourquoi certaines connexions doivent être relayées, TLS et certificats, reverse proxy.
 
 ---
 
 ### Phase 3 : Comptes et identité des postes (9 → 11 déc.)
 
-Objectif : passer d'un jouet à un outil qu'on peut exposer sur Internet.
+Objectif : contrôler qui peut se connecter, avant toute exposition publique.
 
 - 🟥 Base SQLite : tables `users`, `devices`, `sessions_log`
 - 🟥 API : connexion technicien (argon2id + JWT), création de comptes par un admin
@@ -157,8 +150,6 @@ Objectif : passer d'un jouet à un outil qu'on peut exposer sur Internet.
 - 🟥 **Journal des sessions** : qui, quel poste, début, fin, durée
 - 🟧 Page admin simple : liste des techniciens et des sessions
 - 🟨 Double authentification (TOTP) pour les techniciens
-
-**À comprendre :** hachage vs chiffrement, sel, JWT (contenu, signature, expiration), signature asymétrique et défi/réponse, injections SQL et requêtes préparées.
 
 ---
 
@@ -169,8 +160,6 @@ Objectif : passer d'un jouet à un outil qu'on peut exposer sur Internet.
 - 🟧 **Transfert de fichiers** : découpage en morceaux, contrôle du débit (`bufferedAmount`), barre de progression, **confirmation côté receveur**, taille maximale
 - 🟧 **Chat** texte pendant la session
 - 🟨 Ctrl+Alt+Suppr / raccourcis spéciaux, réglage de qualité vidéo
-
-**À comprendre :** _backpressure_, découpage de fichiers, encodage binaire vs JSON, coordonnées multi-écrans et facteur d'échelle (écrans HiDPI).
 
 ---
 
@@ -184,11 +173,9 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 - 🟧 Le bandeau de session reste **toujours visible**, et chaque accès est journalisé
 - 🟨 Lancement automatique au démarrage du système
 
-**À comprendre :** modèle de menace (qui peut attaquer, comment), principe du moindre privilège.
-
 ---
 
-### Phase 6 : Finitions, livraison, présentation (17 → 18 déc.)
+### Phase 6 : Finitions et livraison (17 → 18 déc.)
 
 - 🟥 Installateurs Windows / macOS / Linux (electron-builder), construits par la CI sur les 3 OS
 - 🟥 Documentation : `README` (installation, usage), `docs/architecture.md`, `docs/protocole.md`, `docs/securite.md`
@@ -196,23 +183,15 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 - 🟥 Démo + guide de déploiement et de maintenance (`docs/deploiement.md`)
 - 🟧 Tag de version `v1.0.0` + _release_ GitHub avec les installateurs
 
-> Note : les installateurs **non signés** affichent un avertissement (SmartScreen sous Windows, Gatekeeper sous macOS). Les certificats de signature sont payants : on documente ce point plutôt que de l'acheter.
+> Note : les installateurs **non signés** affichent un avertissement (SmartScreen sous Windows, Gatekeeper sous macOS). La signature de code (payante) est hors périmètre de la v1 : la limite est documentée.
 
 ---
 
-## 5. Méthode de travail
-
-### Pour chaque tâche
-
-1. **Explication** : on voit le concept et pourquoi on en a besoin.
-2. **Écriture** : tu écris le plus possible. Je t'aide, je relis, je corrige.
-3. **Vérification** : tests + démo manuelle.
-4. **Questions de compréhension** : tu dois pouvoir expliquer le code à l'oral.
-5. **Commit / PR**.
+## 5. Conventions de développement
 
 ### Git
 
-- Branche `main` toujours fonctionnelle. Une branche par tâche : `feat/signaling-server`, `fix/key-release`…
+- Branche `main` toujours fonctionnelle. Une branche par tâche : `add/signaling-server`, `fix/key-release`…
 - Une **Pull Request** par tâche, avec la CI verte avant de fusionner.
 - Convention de commits : `[TYPE] : explication`
   - `[INIT] : project setup` : initialisation
@@ -230,8 +209,8 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 
 - [ ] Le code compile, le lint et les tests passent (CI verte)
 - [ ] La fonctionnalité a été testée à la main
+- [ ] Le code a été relu (Pull Request)
 - [ ] La doc est à jour si besoin
-- [ ] Je sais expliquer chaque ligne
 
 ---
 
