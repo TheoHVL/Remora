@@ -1,5 +1,7 @@
 # 🐟 Remora
 
+[![CI](https://github.com/TheoHVL/Remora/actions/workflows/ci.yml/badge.svg)](https://github.com/TheoHVL/Remora/actions/workflows/ci.yml)
+
 > Remora s'accroche à n'importe quel ordinateur, où qu'il soit, pour l'aider à distance.
 
 Remora est une application de **prise en main à distance** multiplateforme (Windows, macOS, Linux) : un technicien voit l'écran d'un poste distant et le contrôle à la souris et au clavier, de façon **sécurisée** et **par Internet**.
