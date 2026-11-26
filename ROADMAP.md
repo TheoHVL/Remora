@@ -118,6 +118,7 @@ Objectif : première version fonctionnelle de la prise en main, sur réseau loca
 - 🟥 Sécurité de base : mot de passe aléatoire vérifié par l'hôte, **fenêtre de consentement**, **bandeau** de session, relâcher les touches en fin de session
 - 🟧 Gestion des erreurs et reconnexion automatique au serveur
 - 🟧 Écran d'accueil propre (UI)
+- 🟧 Interface disponible en français et en anglais (i18n)
 
 **Livrable :** une démo en local, deux fenêtres sur un même PC ou deux PC du même réseau.
 
@@ -236,6 +237,7 @@ Objectif : se connecter à un poste sans que personne ne clique sur « Accepter 
 - [x] TypeScript 6 plutôt que 7 (compatibilité avec typescript-eslint)
 - [ ] Hébergement de l'instance de démonstration (GitHub Student Pack ou Oracle Cloud)
 - [ ] RGPD : le journal des sessions contient des données personnelles. Il faut informer les utilisateurs et définir une durée de conservation.
+- [x] Langues : code et commentaires en anglais, documentation en français, interface en français et en anglais
 
 ---
 
