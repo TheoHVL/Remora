@@ -1,4 +1,4 @@
-# https://editorconfig.org : mêmes règles de base dans tous les éditeurs
+# https://editorconfig.org: same basic rules in every editor
 root = true
 
 [*]

@@ -1,5 +1,7 @@
-/** Version du protocole échangé entre les applications et le serveur. */
+/** Version of the protocol spoken between the apps and the server. */
 export const PROTOCOL_VERSION = 1;
 
-/** Identifiant public d'un poste : 9 chiffres, ex. "123456789". */
+/** Public device identifier: 9 digits, e.g. "123456789". */
 export type DeviceId = string;
+
+export { formatDeviceId, isValidDeviceId, normalizeDeviceId } from './device-id.js';

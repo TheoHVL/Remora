@@ -1,19 +1,19 @@
-# Dépendances
+# Dependencies
 node_modules/
 
-# Fichiers générés (compilation, installateurs)
+# Build output (compilation, installers)
 dist/
 out/
 release/
 *.tsbuildinfo
 coverage/
 
-# Variables d'environnement et secrets
+# Environment variables and secrets
 .env
 .env.*
 !.env.example
 
-# Base de données locale
+# Local database
 *.sqlite
 *.db
 
@@ -21,11 +21,11 @@ coverage/
 *.log
 npm-debug.log*
 
-# Systèmes d'exploitation
+# Operating systems
 .DS_Store
 Thumbs.db
 
-# Éditeurs
+# Editors
 .vscode/*
 !.vscode/extensions.json
 .idea/

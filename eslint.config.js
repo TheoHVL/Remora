@@ -14,14 +14,14 @@ export default defineConfig(
       globals: globals.node,
       parserOptions: {
         projectService: {
-          // Fichiers de config à la racine, hors des tsconfig des paquets
+          // Root config files are not covered by any package tsconfig
           allowDefaultProject: ['*.config.ts'],
         },
         tsconfigRootDir: import.meta.dirname,
       },
     },
     rules: {
-      // Autorise `${nombre}` dans les template strings (interdit par défaut en mode strict)
+      // Allow `${number}` in template strings (forbidden by default in strict mode)
       '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
     },
   },
