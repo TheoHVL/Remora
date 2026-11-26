@@ -5,3 +5,11 @@ export const PROTOCOL_VERSION = 1;
 export type DeviceId = string;
 
 export { formatDeviceId, isValidDeviceId, normalizeDeviceId } from './device-id.js';
+export {
+  clientMessageSchema,
+  parseClientMessage,
+  parseServerMessage,
+  rejectReasonSchema,
+  serverMessageSchema,
+} from './protocol.js';
+export type { ClientMessage, RejectReason, ServerMessage, SignalData } from './protocol.js';
