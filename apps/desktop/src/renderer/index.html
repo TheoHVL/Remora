@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' ws: wss:; img-src 'self' data:"
+    />
+    <title>Remora</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1 class="brand">🐟 Remora</h1>
+      <span id="status" class="status status--offline" data-i18n="status.offline"></span>
+    </header>
+
+    <main class="home">
+      <section class="card">
+        <h2 data-i18n="host.title"></h2>
+        <p class="hint" data-i18n="host.hint"></p>
+
+        <span class="label" data-i18n="host.idLabel"></span>
+        <div id="device-id" class="big-value">— — —</div>
+
+        <span class="label" data-i18n="host.passwordLabel"></span>
+        <div class="row">
+          <div id="password" class="big-value"></div>
+          <button
+            id="new-password"
+            class="button button--secondary"
+            data-i18n="host.newPassword"
+          ></button>
+        </div>
+      </section>
+
+      <section class="card card--soon">
+        <h2 data-i18n="viewer.title"></h2>
+        <p class="hint" data-i18n="viewer.soon"></p>
+      </section>
+    </main>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

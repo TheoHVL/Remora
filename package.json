@@ -30,7 +30,9 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc -b",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "dev:server": "npm run build && npm start -w @remora/server",
+    "dev:desktop": "npm run dev -w @remora/desktop"
   },
   "type": "module"
 }
