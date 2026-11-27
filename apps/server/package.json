@@ -8,6 +8,10 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@remora/shared": "^0.0.0"
+    "@remora/shared": "^0.0.0",
+    "ws": "^8.23.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.18.2"
   }
 }
