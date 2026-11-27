@@ -1,0 +1,132 @@
+:root {
+  --bg: #f4f6f8;
+  --card: #ffffff;
+  --text: #1b2230;
+  --muted: #667085;
+  --border: #d9dee5;
+  --accent: #1f6feb;
+  --online-bg: #dcfce7;
+  --online-text: #166534;
+  --offline-bg: #fee2e2;
+  --offline-text: #991b1b;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11151c;
+    --card: #1a2029;
+    --text: #e6e9ef;
+    --muted: #98a2b3;
+    --border: #2c3440;
+    --accent: #4c8dff;
+    --online-bg: #123524;
+    --online-text: #86efac;
+    --offline-bg: #3b1416;
+    --offline-text: #fca5a5;
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  margin: 0;
+  font-size: 20px;
+}
+
+.status {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.status--online {
+  background: var(--online-bg);
+  color: var(--online-text);
+}
+
+.status--offline {
+  background: var(--offline-bg);
+  color: var(--offline-text);
+}
+
+.home {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+}
+
+.card {
+  padding: 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 17px;
+}
+
+.card--soon {
+  opacity: 0.6;
+}
+
+.hint {
+  color: var(--muted);
+}
+
+.label {
+  display: block;
+  margin: 18px 0 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.big-value {
+  font-family: ui-monospace, monospace;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.button--secondary {
+  background: var(--border);
+  color: var(--text);
+}
